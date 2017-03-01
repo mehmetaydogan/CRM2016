@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author m.dev
+ * @author AGLIF - AYDOGAN - NEHOUCHI
  */
 @Stateless
 public class InteractionFacade extends AbstractFacade<Interaction> {

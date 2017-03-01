@@ -14,7 +14,7 @@ import javax.ejb.Startup;
 
 /**
  *
- * @author m.dev
+ * @author AGLIF - AYDOGAN - NEHOUCHI
  */
 @Singleton
 @Startup // créé dès le déploiement

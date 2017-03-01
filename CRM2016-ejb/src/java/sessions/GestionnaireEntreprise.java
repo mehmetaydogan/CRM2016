@@ -10,7 +10,7 @@ import javax.ejb.LocalBean;
 
 /**
  *
- * @author m.dev
+ * @author AGLIF - AYDOGAN - NEHOUCHI
  */
 @Stateless
 @LocalBean

@@ -15,7 +15,7 @@ import javax.persistence.Temporal;
 
 /**
  *
- * @author m.dev
+ * @author AGLIF - AYDOGAN - NEHOUCHI
  */
 @Entity
 public abstract class Interaction implements Serializable {

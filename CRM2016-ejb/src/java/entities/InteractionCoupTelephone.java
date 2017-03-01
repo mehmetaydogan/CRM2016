@@ -15,7 +15,7 @@ import javax.persistence.InheritanceType;
 
 /**
  *
- * @author m.dev
+ * @author AGLIF - AYDOGAN - NEHOUCHI
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) 

@@ -13,7 +13,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author m.dev
+ * @author AGLIF - AYDOGAN - NEHOUCHI
  */
 @Entity
 public class InteractionEmail extends Interaction {
