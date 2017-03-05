@@ -60,6 +60,11 @@ public class Entreprise implements Serializable {
     public void addInteraction(Interaction i) {
         this.interactions.add(i);
     }
+    
+    public void replaceInteraction(Interaction i) {
+        System.out.println(this.interactions.get(i.getId()).getContenu());
+        //this.interactions.get(i.getId()).setContenu(i.getContenu());
+    }
 
     public String getNom() {
         return nom;

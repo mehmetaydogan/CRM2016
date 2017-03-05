@@ -31,6 +31,12 @@ public class EntrepriseMBean implements Serializable{
 
     private List<Entreprise> liste = new ArrayList();
     private LazyDataModel<Entreprise> modele;
+    private String nom;
+    private String adresse;
+    private String codePostal;
+    private String ville;
+    private String description;
+    
     /**
      * Creates a new instance of EntrepriseMBean
      */
@@ -51,8 +57,49 @@ public class EntrepriseMBean implements Serializable{
         return modele; 
     }
 
-    // 1 - DES MODELES = définis par des getters et des setters
-    public void setModele(LazyDataModel<Entreprise> modele) {    
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getCodePostal() {
+        return codePostal;
+    }
+
+    public void setCodePostal(String codePostal) {
+        this.codePostal = codePostal;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
+
+    public void setModele(LazyDataModel<Entreprise> modele) {
         this.modele = modele;
     }
 
@@ -65,6 +112,19 @@ public class EntrepriseMBean implements Serializable{
         }
         return liste; 
     }
+    
+        /** 
+     * Action handler - appelé lorsque l'utilisateur sélectionne une ligne dans 
+     * la DataTable pour voir les détails 
+     * @param entreprise 
+     * @return 
+     */  
+    public String ajouterEntreprise() {  
+        Entreprise e = new Entreprise(nom, adresse, codePostal, ville, description);
+        liste.add(e);
+        entrepriseFacade.create(e);
+        return "index?faces-redirect=true";
+    } 
 
     // ACTION METHOD (méthodes appelées par click sur 
     // bouton/lien ou event

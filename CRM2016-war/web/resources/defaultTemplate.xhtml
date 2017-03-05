@@ -19,8 +19,8 @@
         <div>
             <div id="left">
                 <h3>Menu</h3>
-                <ui:insert name="left"><a href="/CRM2016-war/">Entreprises</a></ui:insert><br />
-                <ui:insert name="left"><a href="/CRM2016-war/interactions.xhtml">Interactions</a></ui:insert>
+                <ui:insert name="left"><h:link value="Entreprises" outcome="index" /><br />
+                <h:link value="Interactions" outcome="interactions" /></ui:insert>
             </div>
             <div id="content" class="left_content">
                 <ui:insert name="content">Content</ui:insert>

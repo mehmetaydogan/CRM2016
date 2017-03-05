@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <f:metadata>
         <f:viewParam name="id" value="#{interactionMBean.id}"></f:viewParam>
     </f:metadata>
@@ -14,17 +15,39 @@
     <body>
 
         <ui:composition template="./resources/defaultTemplate.xhtml">
-
+            <ui:define name="left">
+                <h:link value="Entreprises" outcome="index" /><br />
+                <h:link value="Interactions" outcome="interactions" />
+                <br /><br />
+                <h4>Nouvelle interaction</h4>
+                <h:form>
+                    <p:growl id="msgs" showDetail="true" />
+                    <p:outputLabel for="typeInteraction" value="Type intéraction :" />
+                    <p:selectOneMenu id="typeInteraction" value="#{interactionMBean.typeInteraction}" style="width:150px">
+                        <f:selectItem itemLabel="-- Choisir type --" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{interactionMBean.typesInteraction}" />
+                    </p:selectOneMenu>
+                    Contenu : <h:inputText value="#{interactionMBean.contenu}" />
+                    Information : <h:inputText value="#{interactionMBean.information}" />
+                    <h:commandButton action="#{interactionMBean.ajouterInteraction(interactionMBean.id)}" value="Ajouter"/>
+                </h:form>
+            </ui:define>
+            
             <ui:define name="content">
                 <f:view>
-
-
                     <h:form>
-                        <h1><h:outputText value="List"/></h1>
+                        <h1><h:outputText value="Liste des intéractions"/></h1><br />
                         <p:dataTable value="#{interactionMBean.interactions}" var="item">
+                            
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="DateInteraction"/>
+                                    <h:outputText value="Id"/>
+                                </f:facet>
+                                <h:outputText value="#{item.id}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Date de création"/>
                                 </f:facet>
                                 <h:outputText value="#{item.dateInteraction}">
                                     <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
@@ -34,13 +57,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Contenu"/>
                                 </f:facet>
-                                <h:outputText value="#{item.contenu}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Id"/>
-                                </f:facet>
-                                <h:outputText value="#{item.id}"/>
+                                <h:inputText value="#{item.contenu}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
@@ -48,9 +65,27 @@
                                 </f:facet>
                                 <h:outputText value="#{item.type}"/>
                             </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Opérations"/>
+                                </f:facet>
+                                <p:commandButton value="Editer"
+                                                 actionListener="#{interactionMBean.modifierInteraction(item)}"/>
+                                <p:commandButton value="Supprimer"
+                                                 actionListener="#{interactionMBean.supprimerInteraction(item)}"/>
+                            </p:column>
                         </p:dataTable>
                     </h:form>
                 </f:view>
+                
+                <br /><br />
+                <br /><br />
+                <br /><br />
+                
+                <br /><br />
+                <br /><br />
+                <br /><br />
+                <br /><br />
             </ui:define>
 
         </ui:composition>

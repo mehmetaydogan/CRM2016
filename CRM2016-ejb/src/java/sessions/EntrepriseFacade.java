@@ -81,4 +81,10 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> {
         Entreprise e = em.find(Entreprise.class, id);
         return e.getInteractions();
     }
+    
+    public void ajouterInteraction(Interaction i, int id) {
+        Entreprise e = em.find(Entreprise.class, id);
+        e.addInteraction(i);
+    }
+    
 }
