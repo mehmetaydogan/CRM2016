@@ -9,9 +9,14 @@ import entities.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import sessions.*;
 
 /**
@@ -23,58 +28,71 @@ import sessions.*;
 public class EntrepriseMBean implements Serializable{
     @EJB
     private EntrepriseFacade entrepriseFacade;
-    @EJB
-    private InteractionFacade interactionFacade;
-    private List<Entreprise> listeEntreprise = new ArrayList();
-    private List<Interaction> listeInteraction = new ArrayList();
-    
+
+    private List<Entreprise> liste = new ArrayList();
+    private LazyDataModel<Entreprise> modele;
     /**
      * Creates a new instance of EntrepriseMBean
      */
     public EntrepriseMBean() {
+        modele = new LazyDataModel<Entreprise>() {
+            @Override
+            public List load(int start, int nb, String nomColonne, SortOrder sort, Map map) {
+                return entrepriseFacade.findRange(start, nb, nomColonne, sort.toString());
+            }
+            
+            @Override
+            public int getRowCount() {
+                return entrepriseFacade.count();
+            }
+        };
     }
-    
-    // 1- Des modèles - définnis par des getters et des setters
-    
-    // Modèles correspondant à la liste des entreprises
-    public List<Entreprise> getEntreprises() {
-        if(listeEntreprise.isEmpty()) {
-            refreshEntreprisesFromDatabase();
-        } else {
-            System.out.println("J'utilise la liste cachée.");
-        }
-        return listeEntreprise;
-    }
-    
-    // Modèles correspondant à la liste des entreprises
-    public List<Interaction> getInteractions(Entreprise e) {
-        if(listeInteraction.isEmpty()) {
-            refreshInteractionsFromDatabase(e);
-        } else {
-            System.out.println("J'utilise la liste cachée.");
-        }
-        return listeInteraction;
+    public LazyDataModel<Entreprise> getModele() {    
+        return modele; 
     }
 
-    // Action method (méthodes appelées par click sur
-    // button 
-    public void refreshEntreprisesFromDatabase() {
-        // On remplit la liste
-        System.out.println("Je remplis la liste.");
-        listeEntreprise = entrepriseFacade.findAll();
+    // 1 - DES MODELES = définis par des getters et des setters
+    public void setModele(LazyDataModel<Entreprise> modele) {    
+        this.modele = modele;
+    }
+
+    // Modèles correspondant à la liste des entreprises
+    public List<Entreprise> getEntreprises() {
+        if(liste.isEmpty()) {
+            refreshListeFromDatabase();
+        } else {
+            System.out.println("J'UTILISE LA LISTE CACHEE");
+        }
+        return liste; 
+    }
+
+    // ACTION METHOD (méthodes appelées par click sur 
+    // bouton/lien ou event
+    public void refreshListeFromDatabase() {
+        // on remplit la liste
+        System.out.println("JE REMPLIS LA LISTE");
+        liste = entrepriseFacade.findAll();
     }
     
-    public void refreshInteractionsFromDatabase(Entreprise e) {
-        // On remplit la liste
-        System.out.println("Je remplis la liste.");
-        listeInteraction = entrepriseFacade.find(e.getId()).getInteractions();
+    public String modifierEntreprise(Entreprise e) {
+        FacesContext context = FacesContext.getCurrentInstance(); 
+        String message = "";
+        try {
+            entrepriseFacade.edit(e);
+            refreshListeFromDatabase(); 
+            message = "L'entreprise a été correctement mis à jour.";
+            context.addMessage(null, new FacesMessage("Succès", message) );
+        } catch(Exception exception) {
+            message = "L'entreprise n'a pas été correctement mis à jour.";
+            System.out.println(exception.getMessage());
+            context.addMessage(null, new FacesMessage("Erreur", message) );
+        }
+        return "entreprises?faces-redirect=true";
     }
     
     public String voirInteractions(Entreprise e) {
-        // Quelques choses a faire, on va voir..
-        System.out.println("Dans voirInteractions id=" + e.getId());
-        // Trouver que les interactions de l'entreprises.
-        listeInteraction = this.getInteractions(e);
-        return "interactions?faces-redirect=true";
+        // ici on va voir...
+        System.out.println("DANS voirInteractions id=" + e.getId());
+        return "interactions?id="+e.getId()+"&amp;faces-redirect=true";
     }
 }

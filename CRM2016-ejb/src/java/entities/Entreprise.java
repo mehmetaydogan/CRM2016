@@ -19,7 +19,7 @@ import javax.persistence.Temporal;
 
 /**
  *
- * @author Mehmet AYDOGAN
+ * @author AGLIF - AYDOGAN - NEHOUCHI
  */
 @Entity
 public class Entreprise implements Serializable {
@@ -51,6 +51,10 @@ public class Entreprise implements Serializable {
 
     public List<Interaction> getInteractions() {
         return interactions;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
     }
     
     public void addInteraction(Interaction i) {
