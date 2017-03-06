@@ -24,8 +24,8 @@ public class InteractionCoupTelephone extends Interaction{
     
     public InteractionCoupTelephone() {
     }
-    public InteractionCoupTelephone(String contenu, String numeroTel) {
-        super(contenu);
+    public InteractionCoupTelephone(String contenu, Users user, String numeroTel) {
+        super(contenu, user);
         this.numeroTel = numeroTel;
     }
 

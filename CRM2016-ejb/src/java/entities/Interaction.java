@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -26,19 +27,30 @@ public abstract class Interaction implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateInteraction;
     private String contenu;
+    @OneToOne
+    private Users createdBy;
     
     public Interaction() {
     }
     
-    public Interaction(String contenu) {
+    public Interaction(String contenu, Users created) {
         this.contenu = contenu;
         this.dateInteraction = new Date();
+        this.createdBy = created;
     }
 
     public Date getDateInteraction() {
         return dateInteraction;
     }
 
+    public Users getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Users user) {
+        this.createdBy = user;
+    }
+    
     public String getContenu() {
         return contenu;
     }

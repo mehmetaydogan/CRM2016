@@ -21,8 +21,8 @@ public class InteractionEmail extends Interaction {
     public InteractionEmail() {
     }
     
-    public InteractionEmail(String contenu, String email) {
-        super(contenu);
+    public InteractionEmail(String contenu,Users user, String email) {
+        super(contenu, user);
         this.email = email;
     }
 

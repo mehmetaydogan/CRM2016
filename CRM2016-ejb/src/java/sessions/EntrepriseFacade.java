@@ -9,6 +9,7 @@ import entities.Entreprise;
 import entities.Interaction;
 import entities.InteractionCoupTelephone;
 import entities.InteractionEmail;
+import entities.Users;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -25,6 +26,8 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> {
 
     @EJB
     private InteractionFacade interactionFacade;
+    @EJB
+    private UsersFacade usersFacade;
     @PersistenceContext
     private EntityManager em;
 
@@ -35,6 +38,9 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> {
     //Exemple
     public void creerEntreprisesDeTest() {
         System.out.println("CREATION DE DONNEES DE TEST");
+        Users user = usersFacade.usersParPseudo("ouss");
+        Users user2 = usersFacade.usersParPseudo("fatimata");
+
         Entreprise e1 = new Entreprise("Miage Nice", "Route des lucioles", "06560",
                 "Sophia Antipolis", "La meilleure entreprise du monde");
         // utilisation de la méthode héritée pour faire
@@ -42,12 +48,12 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> {
         create(e1);
 
         // une interaction pour l'entreprise
-        Interaction i1 = new InteractionCoupTelephone("Appel de monsieur tartanpion pour la taxe d'apprentissage au 0654345323", "0654345323");
+        Interaction i1 = new InteractionCoupTelephone("Appel de monsieur tartanpion pour la taxe d'apprentissage au 0654345323",user, "0654345323");
         // on fait un insert dans la table des interactions.
         interactionFacade.create(i1);
 
         // une interaction pour l'entreprise
-        Interaction i2 = new InteractionEmail("Email à Mr Dupont", "0493546543");
+        Interaction i2 = new InteractionEmail("Email à Mr Dupont", user2, "0493546543");
         // on fait un insert dans la table des interactions.
         interactionFacade.create(i2);
 
@@ -78,13 +84,13 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> {
     }
 
     public List<Interaction> getInteractions(int id) {
+        System.out.println(id);
         Entreprise e = em.find(Entreprise.class, id);
         return e.getInteractions();
     }
     
-    public void ajouterInteraction(Interaction i, int id) {
-        Entreprise e = em.find(Entreprise.class, id);
+    public void ajouterInteraction(Interaction i,int idEntreprise) {
+        Entreprise e = em.find(Entreprise.class, idEntreprise);
         e.addInteraction(i);
     }
-    
 }

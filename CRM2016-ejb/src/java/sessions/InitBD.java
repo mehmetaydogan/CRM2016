@@ -22,6 +22,8 @@ import javax.ejb.Startup;
 public class InitBD {
     @EJB
     private EntrepriseFacade entrepriseFacade;
+    @EJB
+    private UsersFacade usersFacade;
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -29,6 +31,7 @@ public class InitBD {
     @PostConstruct
     public void initBDAvecDonneesTest() {
         System.out.println("Création des données de test.");
+        usersFacade.generateTestUsers();
         entrepriseFacade.creerEntreprisesDeTest();
     }
 }

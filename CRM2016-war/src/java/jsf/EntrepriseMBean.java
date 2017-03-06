@@ -123,7 +123,7 @@ public class EntrepriseMBean implements Serializable{
         Entreprise e = new Entreprise(nom, adresse, codePostal, ville, description);
         liste.add(e);
         entrepriseFacade.create(e);
-        return "index?faces-redirect=true";
+        return "entreprises?faces-redirect=true";
     } 
 
     // ACTION METHOD (méthodes appelées par click sur 

@@ -8,6 +8,7 @@ package jsf;
 import entities.Interaction;
 import entities.InteractionCoupTelephone;
 import entities.InteractionEmail;
+import entities.Users;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,11 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import sessions.EntrepriseFacade;
 import sessions.InteractionFacade;
+import sessions.UsersFacade;
 
 /**
  *
- * @author Mehmet
+ * @author AGLIF - AYDOGAN - NEHOUCHI
  */
 @Named(value = "interactionMBean")
 @ViewScoped
@@ -28,6 +30,8 @@ public class InteractionMBean implements Serializable{
     private EntrepriseFacade entrepriseFacade;
     @EJB
     private InteractionFacade interactionFacade;
+    @EJB
+    private UsersFacade usersFacade;
     private int id;
     private List<String> typesInteraction = new ArrayList<>();
     private String typeInteraction;
@@ -94,7 +98,10 @@ public class InteractionMBean implements Serializable{
     
     
     public List<Interaction> getInteractions() {
-        return entrepriseFacade.getInteractions(id);
+        if(id!=0) {
+            return entrepriseFacade.getInteractions(id);
+        }
+        return null;
     }
     /**
      * Creates a new instance of InteractionMBean
@@ -104,16 +111,22 @@ public class InteractionMBean implements Serializable{
         typesInteraction.add("Email");
     }
     
+    public Users getUserConnected(){
+        return usersFacade.getUserConnected();
+    }
+    
     public String ajouterInteraction(int id){
+        Users user = getUserConnected();
+
         Interaction i = null;
         if(typeInteraction.equals("Coup de Télephone")) {
-            i = new InteractionCoupTelephone(contenu,information);
+            i = new InteractionCoupTelephone(contenu,user,information);
         } else {
             if(typeInteraction.equals("Email")) {
-                i = new InteractionEmail(contenu,information);
+                i = new InteractionEmail(contenu,user,information);
             } 
         }
-        entrepriseFacade.ajouterInteraction(i, id);
+        entrepriseFacade.ajouterInteraction(i,id);
         return "interactions?id="+id+"&amp;faces-redirect=true";
     }
     
