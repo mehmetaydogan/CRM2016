@@ -20,11 +20,11 @@
                 <br /><br />
                 <h4>Nouvelle entreprise</h4>
                 <h:form>
-                    Nom : <h:inputText value="#{entrepriseMBean.nom}" />
-                    Adresse : <h:inputText value="#{entrepriseMBean.adresse}" />
-                    Code postal : <h:inputText value="#{entrepriseMBean.codePostal}" />
-                    Ville : <h:inputText value="#{entrepriseMBean.ville}" />
-                    Description : <h:inputText value="#{entrepriseMBean.description}" />
+                    Nom : <p:inputText value="#{entrepriseMBean.nom}" />
+                    Adresse : <p:inputText value="#{entrepriseMBean.adresse}" />
+                    Code postal : <p:inputMask  value="#{entrepriseMBean.codePostal}" mask="99999" />
+                    Ville : <p:inputText value="#{entrepriseMBean.ville}" />
+                    Description : <p:inputText value="#{entrepriseMBean.description}" />
                     <h:commandButton action="#{entrepriseMBean.ajouterEntreprise()}" value="Ajouter"/>
                 </h:form>
             </ui:define>
@@ -36,7 +36,8 @@
                                      paginator="true"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      rowsPerPageTemplate="5,10,15"
-                                     lazy="true">
+                                     lazy="true"
+                                     emptyMessage="Aucune entreprise.">
                             <p:column sortBy="#{item.id}">
                                 <f:facet name="header">
                                     <h:outputText value="Id"/>
@@ -47,39 +48,39 @@
                                 <f:facet name="header">
                                     <h:outputText value="Nom"/>
                                 </f:facet>
-                                <h:inputText value="#{item.nom}"/>
+                                <p:inputText value="#{item.nom}"/>
                             </p:column>
                             <p:column sortBy="#{item.adresse}">
                                 <f:facet name="header">
                                     <h:outputText value="Adresse"/>
                                 </f:facet>
-                                <h:inputText value="#{item.adresse}"/>
+                                <p:inputText value="#{item.adresse}"/>
                             </p:column>
                             <p:column sortBy="#{item.codePostal}">
                                 <f:facet name="header">
                                     <h:outputText value="Code Postal"/>
                                 </f:facet>
-                                <h:inputText value="#{item.codePostal}"/>
+                                <p:inputText value="#{item.codePostal}"/>
                             </p:column>
                             <p:column sortBy="#{item.ville}">
                                 <f:facet name="header">
                                     <h:outputText value="Ville"/>
                                 </f:facet>
-                                <h:inputText value="#{item.ville}"/>
+                                <p:inputText value="#{item.ville}"/>
                             </p:column>
                             <p:column sortBy="#{item.description}">
                                 <f:facet name="header">
                                     <h:outputText value="Description"/>
                                 </f:facet>
-                                <h:inputText value="#{item.description}"/>
+                                <p:inputText value="#{item.description}"/>
                             </p:column>
                             <p:column sortBy="#{item.dateCreation}">
                                 <f:facet name="header">
                                     <h:outputText value="Date de création"/>
                                 </f:facet>
-                                <h:inputText value="#{item.dateCreation}">
+                                <h:outputText value="#{item.dateCreation}">
                                     <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                                </h:inputText>
+                                </h:outputText>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
@@ -88,7 +89,7 @@
                                 <p:growl id="growl" showDetail="true" sticky="true" />
                                 <p:commandButton value="Editer"
                                                  actionListener="#{entrepriseMBean.modifierEntreprise(item)}" update="growl"/>
-                                <h:commandButton value="Voir les interactions"
+                                <p:commandButton value="Interactions"
                                                  action="#{entrepriseMBean.voirInteractions(item)}"/>
                             </p:column>
                         </p:dataTable>

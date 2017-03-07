@@ -131,7 +131,6 @@ public class InteractionMBean implements Serializable{
     }
     
     public String modifierInteraction(Interaction i){
-        System.out.println(i.getContenu());
         interactionFacade.edit(i);
         
         return "interactions?id="+id+"&amp;faces-redirect=true";

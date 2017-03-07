@@ -48,7 +48,7 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> {
         create(e1);
 
         // une interaction pour l'entreprise
-        Interaction i1 = new InteractionCoupTelephone("Appel de monsieur tartanpion pour la taxe d'apprentissage au 0654345323",user, "0654345323");
+        Interaction i1 = new InteractionCoupTelephone("Appel de monsieur tartanpion pour la taxe d'apprentissage au 0654345323", user, "0654345323");
         // on fait un insert dans la table des interactions.
         interactionFacade.create(i1);
 
@@ -65,6 +65,11 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> {
         e1.addInteraction(i1);
         // on ajoute l'interaction
         e1.addInteraction(i2);
+
+        for (int i = 0; i < 5000; i++) {
+            create(new Entreprise("Entreprise " + i, "Site des templiers", "06560",
+                    "Ville " + i, "De l'autre côté de la rue"));
+        }
     }
 
     @Override
@@ -77,7 +82,15 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> {
     }
 
     public List<Entreprise> findRange(int start, int nb, String nomColonne, String sort) {
-        Query q = em.createQuery("select e from Entreprise e");
+        String requete = "select e from Entreprise e ";
+        if (nomColonne != null) {
+            requete += "order by e." + nomColonne + " ";
+            if (sort != null) {
+                requete += sort;
+            }
+        }
+        System.out.println(requete);
+        Query q = em.createQuery(requete);
         q.setFirstResult(start);
         q.setMaxResults(nb);
         return q.getResultList();
@@ -88,8 +101,8 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> {
         Entreprise e = em.find(Entreprise.class, id);
         return e.getInteractions();
     }
-    
-    public void ajouterInteraction(Interaction i,int idEntreprise) {
+
+    public void ajouterInteraction(Interaction i, int idEntreprise) {
         Entreprise e = em.find(Entreprise.class, idEntreprise);
         e.addInteraction(i);
     }

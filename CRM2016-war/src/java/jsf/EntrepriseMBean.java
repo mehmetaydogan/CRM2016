@@ -44,7 +44,7 @@ public class EntrepriseMBean implements Serializable{
         modele = new LazyDataModel<Entreprise>() {
             @Override
             public List load(int start, int nb, String nomColonne, SortOrder sort, Map map) {
-                return entrepriseFacade.findRange(start, nb, nomColonne, sort.toString());
+                return entrepriseFacade.findRange(start, nb, nomColonne, sort.toString().equals("DESCENDING") ? "DESC" : "ASC");
             }
             
             @Override

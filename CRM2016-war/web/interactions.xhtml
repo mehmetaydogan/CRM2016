@@ -36,7 +36,7 @@
                 <f:view>
                     <h:form>
                         <h1><h:outputText value="Liste des intéractions"/></h1><br />
-                        <p:dataTable value="#{interactionMBean.interactions}" var="item">
+                        <p:dataTable value="#{interactionMBean.interactions}" var="item" emptyMessage="Aucune intéraction.">
                             
                             <p:column>
                                 <f:facet name="header">
